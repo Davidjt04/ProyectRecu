@@ -31,7 +31,7 @@ public class Tipo_EventoService  implements Crud<Tipo_Evento, Integer>{
     public boolean existsById(Integer id) {
         return repo.existsById(id);
     }
-
+ 
     @Override
     public List<Tipo_Evento> findAll() {
         return repo.findAll();

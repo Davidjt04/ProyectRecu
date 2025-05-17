@@ -16,7 +16,7 @@ import com.david.backend.services.ArbitroService;
 
 
 @RestController
-@RequestMapping("/arbitros/lista")
+@RequestMapping("/arbitro/lista")
 public class ArbitroRestController {
     private final ArbitroService service;
 
@@ -25,7 +25,7 @@ public class ArbitroRestController {
     }
 
     //se muestran todos los productos
-    @GetMapping("/arbitros/lista")
+    @GetMapping("/arbitro/lista")
     public List<Arbitro> lista(){
         //va a sacar una lista de productos 
         return this.service.findAll();
@@ -33,7 +33,7 @@ public class ArbitroRestController {
 
     //borrar
     //en este metodo el verbo debería de ser delete no get
-    @GetMapping("/arbitros/borrar/{id}")
+    @GetMapping("/arbitro/borrar/{id}")
     public ResponseEntity<Arbitro> borrar(@PathVariable Integer id){
         //va a borrar un producto
         if(service.existsById(id)){  
@@ -46,17 +46,16 @@ public class ArbitroRestController {
     }
 
     //editar
-   @GetMapping("/products/editar/{id}")
+   @GetMapping("/arbitro/editar/{id}")
     public ResponseEntity<Arbitro> editar(@PathVariable Integer id) {
     Optional<Arbitro> arbitroOpt = service.findById(id);
-
-    if (arbitroOpt.isPresent()) {
-        Arbitro arbitro = arbitroOpt.get();
-        return ResponseEntity.ok(arbitro);
-    } else {
-        return ResponseEntity.notFound().build();
+        if (arbitroOpt.isPresent()) {
+            Arbitro arbitro = arbitroOpt.get();
+            return ResponseEntity.ok(arbitro);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
-}
 
     //crear
     @PostMapping("/products/crear")

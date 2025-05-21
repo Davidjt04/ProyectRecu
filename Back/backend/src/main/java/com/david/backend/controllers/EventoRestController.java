@@ -1,17 +1,21 @@
 package com.david.backend.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.david.backend.entities.Evento;
+import com.david.backend.entities.Jugador;
+import com.david.backend.entities.Partido;
+import com.david.backend.entities.Tipo_Evento;
 import com.david.backend.services.EventoService;
 
 @RestController
@@ -65,11 +69,35 @@ public class EventoRestController {
 
     //guardar
     @PostMapping("/evento/guardar")
-    public ResponseEntity<Evento> guardar(@ModelAttribute Evento evento){
+    public ResponseEntity<Evento> guardar(@RequestBody Evento evento){
         //va a guardar un producto
         if(evento.getId() == null){
         //    return service.save(arbitro);
             service.save(evento);
+
+            //actualizo la variable con partido 
+            // Partido partido = evento.getPartido();
+            // if (partido.getEventos() == null) {
+            //     partido.setEventos(new ArrayList<>());
+            // }
+
+            // partido.getEventos().add(evento);
+
+            // //actualizo la variable con jugador
+            // Jugador jugador = evento.getJugador();
+            // if (jugador.getEventos() == null) {
+            //     jugador.setEventos(new ArrayList<>());
+            // }
+            // jugador.getEventos().add(evento);
+            // //actualizo la varibale con tipo_evento
+
+            // Tipo_Evento tipoEvento = evento.getTipoEvento();
+            // if (tipoEvento.getEventos() == null) {
+            //     tipoEvento.setEventos(new ArrayList<>());
+            // }
+            // tipoEvento.getEventos().add(evento);
+
+
             return ResponseEntity.ok(evento);
         }else{
             Optional<Evento> eventoSinActu = service.findById(evento.getId());
@@ -79,6 +107,33 @@ public class EventoRestController {
             eventoActu.setPartido(evento.getPartido());
             eventoActu.setTipoEvento(evento.getTipoEvento());
             eventoActu.setJugador(evento.getJugador());
+
+            //actualizo la variable con partido
+            // Partido partido = eventoActu.getPartido();
+            // if (partido.getEventos() == null) {
+            //     partido.setEventos(new ArrayList<>());
+            //     partido.getEventos().add(eventoActu);
+
+            // }else{
+            //     partido.getEventos().add(eventoActu);
+            // }
+
+            // //actualizo la variable con jugador
+            // Jugador jugador = eventoActu.getJugador();
+            // if (jugador.getEventos() == null) {
+            //     jugador.setEventos(new ArrayList<>());
+            //     jugador.getEventos().add(eventoActu);
+            // }else{
+            //     jugador.getEventos().add(eventoActu);
+            // }
+            // //actualizo la varibale con tipo_evento
+            // Tipo_Evento tipoEvento = eventoActu.getTipoEvento();
+            // if (tipoEvento.getEventos() == null) {
+            //     tipoEvento.setEventos(new ArrayList<>());
+            //     tipoEvento.getEventos().add(eventoActu);
+            // }else{
+            //     tipoEvento.getEventos().add(eventoActu);
+            // }
 
             service.save(eventoActu);
             return ResponseEntity.ok(eventoActu);  

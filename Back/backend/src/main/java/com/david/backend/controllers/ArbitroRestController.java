@@ -5,10 +5,9 @@ import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.david.backend.entities.Arbitro;
@@ -16,7 +15,7 @@ import com.david.backend.services.ArbitroService;
 
 
 @RestController
-@RequestMapping("/arbitro/lista")
+// @RequestMapping("/arbitro/lista")
 public class ArbitroRestController {
     private final ArbitroService service;
 
@@ -58,21 +57,22 @@ public class ArbitroRestController {
     }
 
     //crear
-    @PostMapping("/products/crear")
+    @PostMapping("/arbitro/crear")
     public ResponseEntity<Arbitro> crear(){
         //va a crear un producto
         return ResponseEntity.ok(new Arbitro());
     }
 
     //guardar
-    @PostMapping("/products/guardar")
-    public ResponseEntity<Arbitro> guardar(@ModelAttribute Arbitro arbitro){
+    @PostMapping("/arbitro/guardar")
+    public ResponseEntity<Arbitro> guardar(@RequestBody Arbitro arbitro){
         //va a guardar un producto
         if(arbitro.getIdArbitro() == null){
         //    return service.save(arbitro);
             service.save(arbitro);
             return ResponseEntity.ok(arbitro);
         }else{
+            
             Optional<Arbitro> ProductoSinActu = service.findById(arbitro.getIdArbitro());
             //cogemos el objeto del optional 
             Arbitro productoActu = ProductoSinActu.get();
@@ -80,6 +80,8 @@ public class ArbitroRestController {
             productoActu.setNombre(arbitro.getNombre());
             productoActu.setFederacion(arbitro.getFederacion());
             productoActu.setFoto(arbitro.getFoto());
+
+            //meter los partidos asociados 
             service.save(productoActu);
             return ResponseEntity.ok(productoActu);  
         }

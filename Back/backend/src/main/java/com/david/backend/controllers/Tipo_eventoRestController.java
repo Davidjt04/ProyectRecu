@@ -5,9 +5,9 @@ import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -64,7 +64,7 @@ public class Tipo_eventoRestController {
 
      //guardar
     @PostMapping("/tipo_evento/guardar")
-    public ResponseEntity<Tipo_Evento> guardar(@ModelAttribute Tipo_Evento tipo_evento){
+    public ResponseEntity<Tipo_Evento> guardar(@RequestBody Tipo_Evento tipo_evento){
         //va a guardar un producto
         if(tipo_evento.getId() == null){
         //    return service.save(arbitro);

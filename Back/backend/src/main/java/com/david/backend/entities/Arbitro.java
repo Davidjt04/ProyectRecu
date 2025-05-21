@@ -3,8 +3,11 @@ package com.david.backend.entities;
 import java.sql.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,31 +29,32 @@ public class Arbitro {
     private String Foto;
 
     //relacion con partido
-    @OneToMany(mappedBy = "arbitro", cascade = CascadeType.ALL)
-    private List<Partido> partidos;
+    // @OneToMany(mappedBy = "arbitro", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    // @JsonIgnore
+    // private List<Partido> partidos;
 
     // Constructor vacio
     public Arbitro(){}
 
     // Constructor con partidos
-    public Arbitro(Integer idArbitro, Date FechaNac, String Nombre, String Federacion,
-    String Foto, List<Partido> partidos) {
-        this.idArbitro = idArbitro;
-        this.FechaNac = FechaNac;
-        this.Nombre = Nombre;
-        this.Federacion = Federacion;
-        this.Foto = Foto;
-        this.partidos = partidos;
-    }
-    // Constructor sin partidos
     // public Arbitro(Integer idArbitro, Date FechaNac, String Nombre, String Federacion,
-    // String Foto) {
+    // String Foto, List<Partido> partidos) {
     //     this.idArbitro = idArbitro;
     //     this.FechaNac = FechaNac;
     //     this.Nombre = Nombre;
     //     this.Federacion = Federacion;
     //     this.Foto = Foto;
+    //     this.partidos = partidos;
     // }
+    // Constructor sin partidos
+    public Arbitro(Integer idArbitro, Date FechaNac, String Nombre, String Federacion,
+    String Foto) {
+        this.idArbitro = idArbitro;
+        this.FechaNac = FechaNac;
+        this.Nombre = Nombre;
+        this.Federacion = Federacion;
+        this.Foto = Foto;
+    }
    
 
     //getter y setter
@@ -94,12 +98,19 @@ public class Arbitro {
         this.Foto = Foto;
     }
     
-    public List<Partido> getPartidos() {
-        return partidos;
-    }
+    // public List<Partido> getPartidos() {
+    //     return partidos;
+    // }
     
-    public void setPartidos(List<Partido> partidos) {
-        this.partidos = partidos;
-    }
-    
+    // public void setPartidos(List<Partido> partidos) {
+    //     this.partidos = partidos;
+    // }
+
+    // public void addPartido(Partido partido) {
+    //     this.partidos.add(partido);
+    // }
+
+    // public void removePartido(Partido partido) {
+    //     this.partidos.remove(partido);
+    // }
 }

@@ -3,9 +3,12 @@ package com.david.backend.entities;
 import java.sql.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,32 +34,35 @@ public class Equipo {
 
     //relaciones 
     //con partido
-    @OneToMany(mappedBy = "equipoLocal", cascade = CascadeType.ALL)
-    private List<Partido> partidosLocal;
+    // @OneToMany(mappedBy = "equipoLocal", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    // @JsonIgnore
+    // private List<Partido> partidosLocal;
 
-    @OneToMany(mappedBy = "equipoVisitante", cascade = CascadeType.ALL)
-    private List<Partido> partidosVisitante;
+    // @OneToMany(mappedBy = "equipoVisitante", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    // @JsonIgnore
+    // private List<Partido> partidosVisitante;
 
-    //con jugador
-    @OneToMany(mappedBy = "equipo", cascade = CascadeType.ALL)
-    private List<Jugador> jugadores;
+    // //con jugador
+    // @OneToMany(mappedBy = "equipo", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    // @JsonIgnore
+    // private List<Jugador> jugadores;
 
     //constructor vacio
     public Equipo(){}
     //constructor con relaciones
-    public Equipo(Integer id, String nombre, Date anioFundacion, String ciudad, String escudo,
-            String fotoOficial, List<Partido> partidosLocal, List<Partido> partidosVisitante,
-            List<Jugador> jugadores) {
-        this.id = id;
-        this.nombre = nombre;
-        this.anioFundacion = anioFundacion;
-        this.ciudad = ciudad;
-        this.escudo = escudo;
-        this.fotoOficial = fotoOficial;
-        this.partidosLocal = partidosLocal;
-        this.partidosVisitante = partidosVisitante;
-        this.jugadores = jugadores;
-    }
+    // public Equipo(Integer id, String nombre, Date anioFundacion, String ciudad, String escudo,
+    //         String fotoOficial, List<Partido> partidosLocal, List<Partido> partidosVisitante,
+    //         List<Jugador> jugadores) {
+    //     this.id = id;
+    //     this.nombre = nombre;
+    //     this.anioFundacion = anioFundacion;
+    //     this.ciudad = ciudad;
+    //     this.escudo = escudo;
+    //     this.fotoOficial = fotoOficial;
+    //     this.partidosLocal = partidosLocal;
+    //     this.partidosVisitante = partidosVisitante;
+    //     this.jugadores = jugadores;
+    // }
     //constructor sin relaciones
     public Equipo(Integer id, String nombre, Date anioFundacion, String ciudad, String escudo,
             String fotoOficial) {
@@ -117,29 +123,54 @@ public class Equipo {
         this.fotoOficial = fotoOficial;
     }
     
-    public List<Partido> getPartidosLocal() {
-        return partidosLocal;
-    }
+    // public List<Partido> getPartidosLocal() {
+    //     return partidosLocal;
+    // }
     
-    public void setPartidosLocal(List<Partido> partidosLocal) {
-        this.partidosLocal = partidosLocal;
-    }
+    // public void setPartidosLocal(List<Partido> partidosLocal) {
+    //     this.partidosLocal = partidosLocal;
+    // }
     
-    public List<Partido> getPartidosVisitante() {
-        return partidosVisitante;
-    }
+    // public List<Partido> getPartidosVisitante() {
+    //     return partidosVisitante;
+    // }
     
-    public void setPartidosVisitante(List<Partido> partidosVisitante) {
-        this.partidosVisitante = partidosVisitante;
-    }
+    // public void setPartidosVisitante(List<Partido> partidosVisitante) {
+    //     this.partidosVisitante = partidosVisitante;
+    // }
     
-    public List<Jugador> getJugadores() {
-        return jugadores;
-    }
+    // public List<Jugador> getJugadores() {
+    //     return jugadores;
+    // }
     
-    public void setJugadores(List<Jugador> jugadores) {
-        this.jugadores = jugadores;
-    }
+    // public void setJugadores(List<Jugador> jugadores) {
+    //     this.jugadores = jugadores;
+    // }
+
+    // public void addPartidoLocal(Partido partido) {
+    //     this.partidosLocal.add(partido);
+    // }
+
+    // public void addPartidoVisitante(Partido partido) {
+    //     this.partidosVisitante.add(partido);
+    // }
+
+    // // public void addJugador(Jugador jugador) {
+    // //     this.jugadores.add(jugador);
+    // // }
+
+    // public void removePartidoLocal(Partido partido) {
+    //     this.partidosLocal.remove(partido);
+    // }
+
+    // public void removePartidoVisitante(Partido partido) {
+    //     this.partidosVisitante.remove(partido);
+    // }
+
+    // public void removeJugador(Jugador jugador) {
+    //     this.jugadores.remove(jugador);
+    // }
+
 
 
 }

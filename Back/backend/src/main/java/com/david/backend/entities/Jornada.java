@@ -3,9 +3,12 @@ package com.david.backend.entities;
 import java.sql.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,19 +25,20 @@ public class Jornada {
     @Column(name = "FechaReferencia")
     private Date fechaReferencia;
 
-     @OneToMany(mappedBy = "jornada", cascade = CascadeType.ALL)
-    private List<Partido> partidos;
+    // @OneToMany(mappedBy = "jornada", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    // @JsonIgnore
+    // private List<Partido> partidos;
 
     //TODO meter los atributos 
     public Jornada() {
     }
     //constructor con relaciones
-    public Jornada(Integer id, Integer numero, Date fechaReferencia, List<Partido> partidos) {
-        this.id = id;
-        this.numero = numero;
-        this.fechaReferencia = fechaReferencia;
-        this.partidos = partidos;
-    }
+    // public Jornada(Integer id, Integer numero, Date fechaReferencia, List<Partido> partidos) {
+    //     this.id = id;
+    //     this.numero = numero;
+    //     this.fechaReferencia = fechaReferencia;
+    //     this.partidos = partidos;
+    // }
     //constructor sin relaciones
     public Jornada(Integer id, Integer numero, Date fechaReferencia) {
         this.id = id;
@@ -66,12 +70,17 @@ public class Jornada {
         this.fechaReferencia = fechaReferencia;
     }
 
-    public List<Partido> getPartidos() {
-        return partidos;
-    }
+    // public List<Partido> getPartidos() {
+    //     return partidos;
+    // }
 
-    public void setPartidos(List<Partido> partidos) {
-        this.partidos = partidos;
-    }
+    // public void setPartidos(List<Partido> partidos) {
+    //     this.partidos = partidos;
+    // }
+
+    // public void addPartido(Partido partido) {
+    //     this.partidos.add(partido);
+    //     partido.setJornada(this);
+    // }
 }
 

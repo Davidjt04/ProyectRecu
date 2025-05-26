@@ -1,25 +1,22 @@
 package com.david.backend.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.david.backend.entities.Evento;
-import com.david.backend.entities.Jugador;
-import com.david.backend.entities.Partido;
-import com.david.backend.entities.Tipo_Evento;
 import com.david.backend.services.EventoService;
+@CrossOrigin(origins = "http://localhost:4200")
 
 @RestController
-@RequestMapping("/evento/lista")
+// @RequestMapping("/evento/lista")
 public class EventoRestController {
     private final EventoService service;
 

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,9 +22,9 @@ import com.david.backend.services.JornadaService;
 import com.david.backend.services.PartidoService;
 
 import jakarta.transaction.Transactional;
-
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@Transactional
+// @Transactional
 // @RequestMapping("/partido/lista")
 public class PartidoRestController {
     private final PartidoService service;

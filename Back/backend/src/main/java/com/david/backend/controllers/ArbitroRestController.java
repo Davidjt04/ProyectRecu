@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.david.backend.entities.Arbitro;
 import com.david.backend.services.ArbitroService;
 
-
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 // @RequestMapping("/arbitro/lista")
 public class ArbitroRestController {
@@ -66,13 +67,13 @@ public class ArbitroRestController {
     //guardar
     @PostMapping("/arbitro/guardar")
     public ResponseEntity<Arbitro> guardar(@RequestBody Arbitro arbitro){
-        //va a guardar un producto
+        //parte de creacion de un arbitro 
         if(arbitro.getIdArbitro() == null){
         //    return service.save(arbitro);
             service.save(arbitro);
             return ResponseEntity.ok(arbitro);
         }else{
-            
+            //parte de modificacin de un arbitro 
             Optional<Arbitro> ProductoSinActu = service.findById(arbitro.getIdArbitro());
             //cogemos el objeto del optional 
             Arbitro productoActu = ProductoSinActu.get();

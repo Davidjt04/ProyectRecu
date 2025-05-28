@@ -12,11 +12,12 @@ INSERT INTO jornada (idJornada, Numero, FechaReferencia) VALUES
 (8, 8, '2024-02-19'),
 (9, 9, '2024-02-26'),
 (10, 10, '2024-03-04');
+DELETE FROM jornada;
 
 -- Inserts para Equipo
 select * from Equipo;
 INSERT INTO Equipo (idEquipo, Nombre, AnioFundacion, Ciudad, Escudo, FotoOficial) VALUES
-(1, 'Tigres FC', '1960-06-01', 'Monterrey', 'escudo_tigres.png', 'foto_tigres.jpg'),
+(1, 'Tigres FC', '1960-06-01', 'Monterrey', 'escudo_tigres.png', ''),
 (2, 'Águilas Doradas', '1985-04-12', 'Bogotá', 'escudo_aguilas.png', 'foto_aguilas.jpg'),
 (3, 'Racing Club', '1903-01-01', 'Buenos Aires', 'escudo_racing.png', 'foto_racing.jpg'),
 (4, 'Leones FC', '1998-07-14', 'Medellín', 'escudo_leones.png', 'foto_leones.jpg'),
@@ -26,6 +27,31 @@ INSERT INTO Equipo (idEquipo, Nombre, AnioFundacion, Ciudad, Escudo, FotoOficial
 (8, 'Dragones', '1990-12-11', 'Caracas', 'escudo_dragones.png', 'foto_dragones.jpg'),
 (9, 'Centauros', '2005-02-02', 'Montevideo', 'escudo_centauros.png', 'foto_centauros.jpg'),
 (10, 'Halcones Rojos', '1970-08-08', 'Santiago', 'escudo_halcones.png', 'foto_halcones.jpg');
+DELETE FROM Equipo;
+
+/*insert de los equipos de la liga*/
+INSERT INTO Equipo (idEquipo, Nombre, AnioFundacion, Ciudad, Escudo, FotoOficial) VALUES
+(1, 'Athletic Club', '1898-01-01', 'Bilbao', 'escudo_athletic.png', 'foto_athletic.jpg'),
+(2, 'Atlético de Madrid', '1903-04-26', 'Madrid', 'escudo_atletico.png', 'foto_atletico.jpg'),
+(3, 'FC Barcelona', '1899-11-29', 'Barcelona', 'escudo_barcelona.png', 'foto_barcelona.jpg'),
+(4, 'Deportivo Alavés', '1921-01-23', 'Vitoria-Gasteiz', 'escudo_alaves.png', 'foto_alaves.jpg'),
+(5, 'RC Celta', '1923-08-23', 'Vigo', 'escudo_celta.png', 'foto_celta.jpg'),
+(6, 'Getafe CF', '1983-07-01', 'Getafe', 'escudo_getafe.png', 'foto_getafe.jpg'),
+(7, 'Girona FC', '1930-07-23', 'Girona', 'escudo_girona.png', 'foto_girona.jpg'),
+(8, 'CD Leganés', '1928-06-23', 'Leganés', 'escudo_leganes.png', 'foto_leganes.jpg'),
+(9, 'CA Osasuna', '1920-10-24', 'Pamplona', 'escudo_osasuna.png', 'foto_osasuna.jpg'),
+(10, 'Real Betis', '1907-09-12', 'Sevilla', 'escudo_betis.png', 'foto_betis.jpg'),
+(11, 'RCD Mallorca', '1916-03-05', 'Palma', 'escudo_mallorca.png', 'foto_mallorca.jpg'),
+(12, 'Real Madrid', '1902-03-06', 'Madrid', 'escudo_realmadrid.png', 'foto_realmadrid.jpg'),
+(13, 'RCD Espanyol', '1900-10-28', 'Barcelona', 'escudo_espanyol.png', 'foto_espanyol.jpg'),
+(14, 'Real Sociedad', '1909-09-07', 'San Sebastián', 'escudo_realsociedad.png', 'foto_realsociedad.jpg'),
+(15, 'Rayo Vallecano', '1924-05-29', 'Madrid', 'escudo_rayo.png', 'foto_rayo.jpg'),
+(16, 'Sevilla FC', '1890-01-25', 'Sevilla', 'escudo_sevilla.png', 'foto_sevilla.jpg'),
+(17, 'UD Las Palmas', '1949-08-22', 'Las Palmas de Gran Canaria', 'escudo_laspalmas.png', 'foto_laspalmas.jpg'),
+(18, 'Villarreal CF', '1923-03-10', 'Villarreal', 'escudo_villarreal.png', 'foto_villarreal.jpg'),
+(19, 'Valencia CF', '1919-03-18', 'Valencia', 'escudo_valencia.png', 'foto_valencia.jpg'),
+(20, 'Real Valladolid', '1928-06-20', 'Valladolid', 'escudo_valladolid.png', 'foto_valladolid.jpg');
+
 
 -- Inserts para Arbitro
 select * from Arbitro;
@@ -48,7 +74,7 @@ INSERT INTO Partido (idPartido, FechaPrevista, FechaInicio, Estadio, EquipoVisit
 (2, '2024-01-08', '2024-01-08', 'Finalizado', 2, 2, 3,2),
 (3, '2024-01-15', '2024-01-15', 'Finalizado', 3, 3, 4,3),
 (4, '2024-01-22', '2024-01-22', 'Finalizado', 4, 4, 5,4),
-(5, '2024-01-22', '2024-01-22', 'Finalizado', 4, 8, 6,5),
+(5, '2024-01-22', '2024-01-22', 'Finalizado', 4, 9, 6,5),
 (6, '2024-02-05', '2024-01-29', 'Programado', 6, 6, 7,6),
 (7, '2024-02-12', '2024-01-29', 'Programado', 7, 7, 8,7),
 (8, '2024-02-19', '2024-01-29', 'Programado', 8, 8, 9,8),

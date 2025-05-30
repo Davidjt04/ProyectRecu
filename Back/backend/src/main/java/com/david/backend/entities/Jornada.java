@@ -25,20 +25,11 @@ public class Jornada {
     @Column(name = "FechaReferencia")
     private Date fechaReferencia;
 
-    // @OneToMany(mappedBy = "jornada", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    // @JsonIgnore
-    // private List<Partido> partidos;
 
     //TODO meter los atributos 
     public Jornada() {
     }
-    //constructor con relaciones
-    // public Jornada(Integer id, Integer numero, Date fechaReferencia, List<Partido> partidos) {
-    //     this.id = id;
-    //     this.numero = numero;
-    //     this.fechaReferencia = fechaReferencia;
-    //     this.partidos = partidos;
-    // }
+    
     //constructor sin relaciones
     public Jornada(Integer id, Integer numero, Date fechaReferencia) {
         this.id = id;
@@ -70,17 +61,9 @@ public class Jornada {
         this.fechaReferencia = fechaReferencia;
     }
 
-    // public List<Partido> getPartidos() {
-    //     return partidos;
+    // public void setPartidos(List<Partido> partidosDeJornada) {
+    //     throw new UnsupportedOperationException("Not supported yet.");
     // }
 
-    // public void setPartidos(List<Partido> partidos) {
-    //     this.partidos = partidos;
-    // }
-
-    // public void addPartido(Partido partido) {
-    //     this.partidos.add(partido);
-    //     partido.setJornada(this);
-    // }
 }
 

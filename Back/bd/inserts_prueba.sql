@@ -111,16 +111,15 @@ INSERT INTO Partido (idPartido, FechaPrevista, FechaInicio, Estadio, EquipoVisit
 select * from tipoevento;
 INSERT INTO tipoevento (idTipoEvento, Nombre) VALUES
 -- Eventos de inicio de partido
-(1,'OnceInicial'),
-(2, 'Inicio'),
-(3,'FinalPrimeraParte'),
-(4,'TiempoExtra1'),
-(5,'InicioSegundaParte'),
-(6,'TiempoExtra2'),
-(7, 'Final'),
+(1, 'Inicio'),
+(2,'FinalPrimeraParte'),
+(3,'TiempoExtra1'),
+(4,'InicioSegundaParte'),
+(5,'TiempoExtra2'),
+(6, 'Final'),
 
 -- Eventos de inicio 1 jugador
-
+(7,'OnceInicial'),
 (8, 'Gol'),
 (9, 'Tarjeta Amarilla'),
 (10, 'Tarjeta Roja'),
@@ -139,7 +138,7 @@ INSERT INTO tipoevento (idTipoEvento, Nombre) VALUES
 -- Eventos de inicio 2 jugadores
 
 (22, 'Falta'),
-(23, 'PenaltiCometido'),
+(23,'PenaltiCometido'),
 (24,'FaltaRecivida'),
 (25,'PenaltiRecivido');
 

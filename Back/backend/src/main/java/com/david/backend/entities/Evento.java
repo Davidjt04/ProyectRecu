@@ -27,7 +27,7 @@ public class Evento {
 
     //con jugador
     @ManyToOne
-    @JoinColumn(name = "Jugador_idJugador")
+    @JoinColumn(name = "Jugador_idJugador", nullable = true)
     private Jugador jugador;
 
     //con tipo_evento

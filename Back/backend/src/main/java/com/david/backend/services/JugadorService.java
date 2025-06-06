@@ -48,6 +48,11 @@ public class JugadorService implements Crud<Jugador, Integer>{
         repo.deleteAll();
     }
 
+    public List<Jugador> findAllById(Integer equipoId) {
+        return repo.findByEquipoId(equipoId);
+    }
+
+
     // @Override
     // public Equipo obtenerEquipoDeJugadorPorNombre(String nombre) {
     //     return repo.encontrarEquipoPorNombreJugador(nombre);

@@ -107,5 +107,11 @@ public class JugadorRestController {
             
     }
 
+    //busca los jugadores dependiendo del equipo
+    @GetMapping("/jugador/por-equipo/{idEquipo}")
+    public List<Jugador> getJugadoresPorEquipo(@PathVariable Integer idEquipo) {
+    return service.findAllById(idEquipo);
+    }
+
 
 }

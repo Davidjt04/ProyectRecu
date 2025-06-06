@@ -3,6 +3,8 @@ package com.david.backend.interfaces;
 import java.util.List;
 import java.util.Optional;
 
+import com.david.backend.entities.Jugador;
+
 public interface Crud<T,Integer>{
     //Arbitro
       //guardar
@@ -17,5 +19,6 @@ public interface Crud<T,Integer>{
         public void deleteById(Integer id) ;
         //borrar todos
         public void deleteAll();
+
     
 }

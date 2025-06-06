@@ -1,5 +1,7 @@
 package com.david.backend.repos;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,5 +18,7 @@ public interface RepoJugador extends JpaRepository<Jugador, Integer>{
     @Query("SELECT j.equipo FROM Jugador j WHERE j.id = :id")
     Equipo encontrarEquipoPorIdJugador(@Param("id") Integer id);
 
-    
+    //coje los jugadores de un equipo por su id
+    List<Jugador> findByEquipoId(Integer equipoId);
+
 }

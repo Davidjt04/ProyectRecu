@@ -16,4 +16,9 @@ public interface RepoEvento extends JpaRepository<Evento, Integer>{
     //que eventos tiene el partido "x"
     @Query("SELECT e FROM Evento e WHERE e.partido.id = :partidoId")
     List<Evento> obtenerEventosPorPartido(@Param("partidoId") Integer partidoId);
+
+    
+    List<Evento> findByPartidoId(Long partidoId);
+
+
 }  

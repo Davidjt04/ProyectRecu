@@ -49,4 +49,8 @@ public class EventoService implements Crud<Evento, Integer> {
         repo.deleteAll();
     }
 
+    public List<Evento> getEventosPorPartido(Long idPartido) {
+        return repo.findByPartidoId(idPartido);
+    }
+
 }

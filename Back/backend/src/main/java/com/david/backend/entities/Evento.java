@@ -17,7 +17,7 @@ public class Evento {
     @Column(name = "idEvento")
     private Integer id;
     @Column(name = "TiempoPartido")
-    private Time tiempoPartido;
+    private String tiempoPartido;
 
     //relaciones
     //con partido
@@ -38,7 +38,7 @@ public class Evento {
     //constructor vacio
     public Evento(){} 
     //constructor con relaciones    
-    public Evento(Integer id, Time tiempoPartido, Partido partido, Jugador jugador,
+    public Evento(Integer id, String tiempoPartido, Partido partido, Jugador jugador,
             Tipo_Evento tipoEvento) {
         this.id = id;
         this.tiempoPartido = tiempoPartido;
@@ -47,7 +47,7 @@ public class Evento {
         this.tipoEvento = tipoEvento;
     }
     //constructor sin relaciones
-    public Evento(Integer id, Time tiempoPartido) {
+    public Evento(Integer id, String tiempoPartido) {
         this.id = id;
         this.tiempoPartido = tiempoPartido;
     }
@@ -61,11 +61,11 @@ public class Evento {
       this.id = id;
   }
   
-  public Time getTiempoPartido() {
+  public String getTiempoPartido() {
       return tiempoPartido;
   }
   
-  public void setTiempoPartido(Time tiempoPartido) {
+  public void setTiempoPartido(String tiempoPartido) {
       this.tiempoPartido = tiempoPartido;
   }
   

@@ -138,5 +138,12 @@ public class EventoRestController {
             
     }
 
+     @GetMapping("evento/partido/{idPartido}")
+    public ResponseEntity<List<Evento>> getEventosPorPartido(@PathVariable Long idPartido) {
+        List<Evento> eventos = service.getEventosPorPartido(idPartido);
+        return ResponseEntity.ok(eventos);
+    }
+
+
 
 }

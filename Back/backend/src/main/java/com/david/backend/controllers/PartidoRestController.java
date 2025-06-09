@@ -25,7 +25,7 @@ import jakarta.transaction.Transactional;
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 // @Transactional
-// @RequestMapping("/partido/lista")
+// @RequestMapping("/cliente")
 public class PartidoRestController {
     private final PartidoService service;
     // private final ArbitroService arbiservice;

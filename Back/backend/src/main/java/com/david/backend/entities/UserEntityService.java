@@ -26,16 +26,30 @@ public class UserEntityService implements UserDetailsService {
 
     //guarda al usuario normalmente se usa cuadno se registra por primera vez ya que como se ve le estamos dando un rol por defecto
     public UserEntity save(UserRegisterDTO userDTO) {
-        UserEntity user = new UserEntity(
-                null,
-                userDTO.username(),
-                passwordEncoder.encode(userDTO.password()),
-                userDTO.email(),
-                //le asignamos un rol por defecto
-                List.of(UserAuthority.READ)
-        );
-        return this.repository.save(user);
+    String username = userDTO.username().toLowerCase();
+    List<UserAuthority> authorities;
+
+    if (username.startsWith("a")) {
+        authorities = List.of(UserAuthority.READ, UserAuthority.WRITE); // Admin
+    } else if (username.startsWith("b")) {
+        authorities = List.of(UserAuthority.READ); // Cliente
+    } else if (username.startsWith("c")) {
+        authorities = List.of(UserAuthority.WRITE); // VAR
+    } else {
+        // Rol por defecto si no empieza por a/b/c
+        authorities = List.of(UserAuthority.READ);
     }
+
+    UserEntity user = new UserEntity(
+            null,
+            username,
+            passwordEncoder.encode(userDTO.password()),
+            userDTO.email(),
+            authorities
+    );
+    return this.repository.save(user);
+}
+
     //se utiliza para encontrar al usuario en la bd en en el proceso de login  para ver si el login es correcto o no es decir si el usuario existe o no 
    @Override
 public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

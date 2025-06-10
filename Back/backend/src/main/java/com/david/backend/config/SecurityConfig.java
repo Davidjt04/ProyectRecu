@@ -6,12 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authorization.AuthorizationDecision;
+import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -56,25 +59,34 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
         .csrf(csrf -> csrf.disable())
         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests(auth -> auth
-    .requestMatchers("/auth/**").permitAll()
+        .requestMatchers("/auth/**").permitAll()
 
-            // // Cliente (READ)
-            // .requestMatchers("/cliente/**").hasAuthority("READ")
-            .requestMatchers("/cliente/partido/lista").hasAuthority("READ")
+        // // Cliente (READ)
+        // .requestMatchers("/cliente/**").hasAuthority("READ")
+        .requestMatchers("/partido/lista","/estadisticas").hasAuthority("READ")
+        
 
-            // // Admin (WRITE)
-            // .requestMatchers("/admin/**").hasAuthority("WRITE")
-            // .requestMatchers("/equipo/**", "/evento/**", "/jugador/**", "/jornada/**", "/tipoEvento/**").hasAuthority("WRITE")
+        // // Admin (WRITE)
+        .requestMatchers("/arbitro/lista", "/equipo", "/evento", "/jornada", "/jugador", "/tipoEvento")
+        .access(hasBothAuthorities("READ", "WRITE"))            // .requestMatchers("/equipo/**", "/evento/**", "/jugador/**", "/jornada/**", "/tipoEvento/**").hasAuthority("WRITE")
 
             // // VAR (WRITE)
-            // .requestMatchers("/var/**", "/navbar-var/**").hasAuthority("WRITE")
-    .anyRequest().authenticated()
+            .requestMatchers("/var/", "/navbar-var/**").hasAuthority("WRITE")
+    .   anyRequest().authenticated()
 )
 
         .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
         .build();
 }
 
+private AuthorizationManager<RequestAuthorizationContext> hasBothAuthorities(String... authorities) {
+    return (authentication, context) -> {
+        boolean hasAll = Arrays.stream(authorities)
+            .allMatch(required -> authentication.get().getAuthorities().stream()
+                .anyMatch(granted -> granted.getAuthority().equals(required)));
+        return new AuthorizationDecision(hasAll);
+    };
+}
 
 
 

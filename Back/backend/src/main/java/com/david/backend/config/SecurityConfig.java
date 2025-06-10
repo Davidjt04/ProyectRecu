@@ -22,9 +22,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 public class SecurityConfig {
-@Autowired
-    private JwtFilter jwtFilter;
 
+    @Autowired
+    private JwtFilter jwtFilter;
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
@@ -39,55 +39,53 @@ public class SecurityConfig {
         return source;
     }
 
-    //configura como se van a autenticar los usuarios
     @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http,
-                                             PasswordEncoder passwordEncoder,
-                                             UserDetailsService userDetailsService) throws Exception {
+    public AuthenticationManager authenticationManager(
+            HttpSecurity http,
+            PasswordEncoder passwordEncoder,
+            UserDetailsService userDetailsService) throws Exception {
 
         return http.getSharedObject(AuthenticationManagerBuilder.class)
                 .userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder)
                 .and().build();
-
     }
 
-@Bean
-public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    return http
-        .cors(cors -> {})  // habilita CORS con la nueva sintaxis lambda
-        .csrf(csrf -> csrf.disable())
-        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .authorizeHttpRequests(auth -> auth
-        .requestMatchers("/auth/**").permitAll()
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http
+            .cors(cors -> {})
+            .csrf(csrf -> csrf.disable())
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/auth/**", "/img/**").permitAll()
 
-        // // Cliente (READ)
-        // .requestMatchers("/cliente/**").hasAuthority("READ")
-        .requestMatchers("/partido/lista","/estadisticas").hasAuthority("READ")
-        
+                // Cliente (READ)
+                .requestMatchers("/estadisticas").hasAuthority("READ")
 
-        // // Admin (WRITE)
-        .requestMatchers("/arbitro/lista", "/equipo", "/evento", "/jornada", "/jugador", "/tipoEvento")
-        .access(hasBothAuthorities("READ", "WRITE"))            // .requestMatchers("/equipo/**", "/evento/**", "/jugador/**", "/jornada/**", "/tipoEvento/**").hasAuthority("WRITE")
+                // Partido puede ser accedido por usuarios con READ o WRITE
+                .requestMatchers("/partido/lista","/arbitro/lista").hasAnyAuthority("READ", "WRITE")
 
-            // // VAR (WRITE)
-            .requestMatchers("/var/", "/navbar-var/**").hasAuthority("WRITE")
-    .   anyRequest().authenticated()
-)
+                // Admin (ambas autoridades)
+                .requestMatchers( "/equipo", "/evento", "/jornada", "/jugador", "/tipoEvento")
+                .access(hasBothAuthorities("READ", "WRITE"))
 
-        .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-        .build();
-}
+                // VAR (solo WRITE)
+                .requestMatchers("/var", "/navbar-var/**").hasAuthority("WRITE")
 
-private AuthorizationManager<RequestAuthorizationContext> hasBothAuthorities(String... authorities) {
-    return (authentication, context) -> {
-        boolean hasAll = Arrays.stream(authorities)
-            .allMatch(required -> authentication.get().getAuthorities().stream()
-                .anyMatch(granted -> granted.getAuthority().equals(required)));
-        return new AuthorizationDecision(hasAll);
-    };
-}
+                // Cualquier otra ruta requiere autenticación
+                .anyRequest().authenticated()
+            )
+            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+            .build();
+    }
 
-
-
+    private AuthorizationManager<RequestAuthorizationContext> hasBothAuthorities(String... authorities) {
+        return (authentication, context) -> {
+            boolean hasAll = Arrays.stream(authorities)
+                .allMatch(required -> authentication.get().getAuthorities().stream()
+                    .anyMatch(granted -> granted.getAuthority().equals(required)));
+            return new AuthorizationDecision(hasAll);
+        };
+    }
 }

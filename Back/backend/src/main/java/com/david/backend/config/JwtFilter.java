@@ -1,4 +1,6 @@
 package com.david.backend.config;
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -9,18 +11,19 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-
-
-import java.io.IOException;
-
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 //Es un filtro que intercepta cada petición HTTP antes de llegar a tus controladores.
 @Component
 public class JwtFilter extends OncePerRequestFilter{
+    private static final Logger log = LoggerFactory.getLogger(JwtFilter.class);
+
     @Autowired
     private JwtTokenProvider tokenProvider;
 
@@ -38,11 +41,13 @@ public class JwtFilter extends OncePerRequestFilter{
             UserDetails user = this.userService.loadUserByUsername(username);
 
             Authentication auth = new UsernamePasswordAuthenticationToken(
-                    user.getUsername(),
-                    user.getPassword(),
-                    user.getAuthorities());
+            user,       // el objeto UserDetails completo
+            null,       // credenciales (null porque ya autenticado)
+            user.getAuthorities());
 
             SecurityContextHolder.getContext().setAuthentication(auth);
+            log.info("Autenticación seteada: " + auth.getAuthorities());
+
         }
 
         filterChain.doFilter(request, response);

@@ -41,7 +41,7 @@ public class PartidoRestController {
     }
 
     //se muestran todos los productos
-    @GetMapping("/partido/lista")
+    @GetMapping("cliente/partido/lista")
     public List<Partido> lista(){
         //va a sacar una lista de productos 
         return this.service.findAll();

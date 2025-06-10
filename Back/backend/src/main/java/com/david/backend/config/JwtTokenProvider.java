@@ -45,7 +45,7 @@ public String generateToken(Authentication authentication) {
             //tipo de token
             .setHeaderParam("typ", "JWT")
             //identifica al usuario con el id
-            .setSubject(Long.toString(user.getId()))
+            .setSubject(user.getUsername())
             //fecha de emision (actual)
             .setIssuedAt(new Date())
             //fechad de expiracion

@@ -26,7 +26,7 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));  // origen del frontend Angular
+        configuration.setAllowedOriginPatterns(Arrays.asList("http://localhost:4200"));  // origen del frontend Angular
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
@@ -56,9 +56,21 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
         .csrf(csrf -> csrf.disable())
         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/auth/**").permitAll()
-            .anyRequest().authenticated()
-        )
+    .requestMatchers("/auth/**").permitAll()
+
+            // // Cliente (READ)
+            // .requestMatchers("/cliente/**").hasAuthority("READ")
+            .requestMatchers("/cliente/partido/lista").hasAuthority("READ")
+
+            // // Admin (WRITE)
+            // .requestMatchers("/admin/**").hasAuthority("WRITE")
+            // .requestMatchers("/equipo/**", "/evento/**", "/jugador/**", "/jornada/**", "/tipoEvento/**").hasAuthority("WRITE")
+
+            // // VAR (WRITE)
+            // .requestMatchers("/var/**", "/navbar-var/**").hasAuthority("WRITE")
+    .anyRequest().authenticated()
+)
+
         .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
         .build();
 }

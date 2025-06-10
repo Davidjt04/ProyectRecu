@@ -1,18 +1,16 @@
 package com.david.backend.entities;
 
 
+import java.util.List;
+
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.david.backend.config.UserAuthority;
 import com.david.backend.repos.UserEntityRepository;
-
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 @Service
 public class UserEntityService implements UserDetailsService {
@@ -39,9 +37,12 @@ public class UserEntityService implements UserDetailsService {
         return this.repository.save(user);
     }
     //se utiliza para encontrar al usuario en la bd en en el proceso de login  para ver si el login es correcto o no es decir si el usuario existe o no 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return repository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado: " + username));
-    }
+   @Override
+public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    UserEntity user = repository.findByUsername(username)
+            .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado: " + username));
+    System.out.println("Usuario cargado: " + user.getUsername() + ", authorities: " + user.getAuthorities());
+    return user;
+}
+
 }

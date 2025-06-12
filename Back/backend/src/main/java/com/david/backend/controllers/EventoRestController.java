@@ -144,6 +144,39 @@ public class EventoRestController {
         return ResponseEntity.ok(eventos);
     }
 
+//     // 1. Cuántos eventos de cierto tipo tiene un jugador
+// @GetMapping("evento/jugador/{jugadorId}/tipo/{tipoEventoId}")
+// public ResponseEntity<Long> contarEventosPorJugadorYTipo(
+//         @PathVariable Integer jugadorId,
+//         @PathVariable Integer tipoEventoId) {
+//     Long total = service.contarEventosPorJugadorYTipo(jugadorId, tipoEventoId);
+//     return ResponseEntity.ok(total);
+// }
+
+// 2. Lista de eventos de un jugador en un partido
+@GetMapping("evento/jugador/{jugadorId}/partido/{partidoId}")
+public ResponseEntity<List<Evento>> eventosDeJugadorEnPartido(
+        @PathVariable Integer jugadorId,
+        @PathVariable Integer partidoId) {
+    List<Evento> eventos = service.findEventosPorJugadorEnPartido(jugadorId, partidoId);
+    return ResponseEntity.ok(eventos);
+}
+
+// 3. Cuántos eventos de cierto tipo hay en un partido
+@GetMapping("evento/partido/{partidoId}/tipo/{tipoEventoId}")
+public ResponseEntity<Long> contarEventosPorTipoEnPartido(
+        @PathVariable Integer partidoId,
+        @PathVariable Integer tipoEventoId) {
+    Long total = service.contarEventosPorTipoEnPartido(partidoId, tipoEventoId);
+    return ResponseEntity.ok(total);
+}
+
+@GetMapping("evento/estadisticas/top-jugadores/tipo/{tipoEventoId}")
+public ResponseEntity<List<Object[]>> topJugadoresPorEvento(@PathVariable Integer tipoEventoId) {
+    List<Object[]> resultados = service.getTopJugadoresConMasEventos(tipoEventoId);
+    return ResponseEntity.ok(resultados);
+}
+
 
 
 }

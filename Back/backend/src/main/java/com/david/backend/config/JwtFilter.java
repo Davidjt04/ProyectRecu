@@ -1,6 +1,8 @@
 package com.david.backend.config;
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,9 +18,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 //Es un filtro que intercepta cada petición HTTP antes de llegar a tus controladores.
 @Component
 public class JwtFilter extends OncePerRequestFilter{
@@ -30,34 +29,37 @@ public class JwtFilter extends OncePerRequestFilter{
     @Autowired
     private UserDetailsService userService;
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        //coje el token del header
-        String token = this.extractToken(request);
+protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+        throws ServletException, IOException {
 
-        if(this.tokenProvider.isValidToken(token)){
+    String token = this.extractToken(request);
+    log.info("Token extraído: {}", token);
 
-            String username = this.tokenProvider.getUsernameFromToken(token);
-            UserDetails user = this.userService.loadUserByUsername(username);
+    if (token != null && this.tokenProvider.isValidToken(token)) {
+        String username = this.tokenProvider.getUsernameFromToken(token);
+        log.info("Usuario del token: {}", username);
 
-            Authentication auth = new UsernamePasswordAuthenticationToken(
-            user,       // el objeto UserDetails completo
-            null,       // credenciales (null porque ya autenticado)
+        UserDetails user = this.userService.loadUserByUsername(username);
+
+        Authentication auth = new UsernamePasswordAuthenticationToken(
+            user,
+            null,
             user.getAuthorities());
 
-            SecurityContextHolder.getContext().setAuthentication(auth);
-            log.info("Autenticación seteada: " + auth.getAuthorities());
-
-        }
-
-        filterChain.doFilter(request, response);
+        SecurityContextHolder.getContext().setAuthentication(auth);
+        log.info("Autenticación seteada: {}", auth.getAuthorities());
+    } else {
+        log.warn("Token inválido o no presente.");
     }
+
+    filterChain.doFilter(request, response);
+}
 
     private String extractToken(HttpServletRequest request){
         String bearerToken = request.getHeader("Authorization");
-        if (StringUtils.hasLength(bearerToken) && bearerToken.startsWith("Bearer")){
-            return bearerToken.substring("Bearer ".length());
-        }
+       if (StringUtils.hasLength(bearerToken) && bearerToken.startsWith("Bearer ")) {
+        return bearerToken.substring(7);//BEARER un string de 7 contando el espacio
+}
         return null;
     }
 }

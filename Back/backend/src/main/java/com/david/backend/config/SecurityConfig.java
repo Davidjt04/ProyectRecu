@@ -51,34 +51,58 @@ public class SecurityConfig {
                 .and().build();
     }
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-            .cors(cors -> {})
-            .csrf(csrf -> csrf.disable())
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth/**", "/img/**").permitAll()
+//     @Bean
+//     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//         return http
+//             .cors(cors -> {})
+//             .csrf(csrf -> csrf.disable())
+//             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//             .authorizeHttpRequests(auth -> auth
+//     .requestMatchers("/auth/**", "/img/**").permitAll()
 
-                // Cliente (READ)
-                .requestMatchers("/estadisticas").hasAuthority("READ")
+//     // Cliente (READ)
+//     .requestMatchers("/estadisticas").hasAuthority("READ")
 
-                // Partido puede ser accedido por usuarios con READ o WRITE
-                .requestMatchers("/partido/lista","/arbitro/lista").hasAnyAuthority("READ", "WRITE")
+//     // Partido accesible por READ o WRITE
+//     .requestMatchers("/partido/lista", "/arbitro/lista", "/evento/guardar").hasAnyAuthority("READ", "WRITE")
 
-                // Admin (ambas autoridades)
-                .requestMatchers( "/equipo", "/evento", "/jornada", "/jugador", "/tipoEvento")
-                .access(hasBothAuthorities("READ", "WRITE"))
+//     // VAR (solo WRITE)
+//     .requestMatchers("/var", "/navbar-var/**").hasAuthority("WRITE")
 
-                // VAR (solo WRITE)
-                .requestMatchers("/var", "/navbar-var/**").hasAuthority("WRITE")
+//     // Admin (requiere ambos)
+//     .requestMatchers("/equipo", "/evento/**", "/jornada", "/jugador", "/tipoEvento")
+//     .access(hasBothAuthorities("READ", "WRITE"))
 
-                // Cualquier otra ruta requiere autenticación
-                .anyRequest().authenticated()
-            )
-            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-            .build();
-    }
+//     .anyRequest().authenticated()
+// )
+
+
+
+//             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+//             .build();
+// }
+@Bean
+public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    return http
+        .cors(cors -> {})
+        .csrf(csrf -> csrf.disable())
+        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .authorizeHttpRequests(auth -> auth
+            // Comentar o eliminar todas las reglas de autorización específicas:
+            //.requestMatchers("/auth/**", "/img/**").permitAll()
+            //.requestMatchers("/estadisticas").hasAuthority("READ")
+            //.requestMatchers("/partido/lista", "/arbitro/lista", "/evento/guardar").hasAnyAuthority("READ", "WRITE")
+            //.requestMatchers("/var", "/navbar-var/**").hasAuthority("WRITE")
+            //.requestMatchers("/equipo", "/evento/**", "/jornada", "/jugador", "/tipoEvento")
+            //.access(hasBothAuthorities("READ", "WRITE"))
+
+            // Permitir acceso a todas las URLs sin autenticación
+            .anyRequest().permitAll()
+        )
+        // Comentar o eliminar el filtro JWT, ya que no es necesario si no hay seguridad
+        //.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+        .build();
+}
 
     private AuthorizationManager<RequestAuthorizationContext> hasBothAuthorities(String... authorities) {
         return (authentication, context) -> {
